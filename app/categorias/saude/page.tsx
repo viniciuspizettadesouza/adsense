@@ -1,7 +1,7 @@
-import CategoryPage from '@/components/template/CategoryPage';
+import CategoryPage from '@/components/templates/CategoryPage';
 import { pagesData } from '@/data/pages';
 
-export function SaudePage() {
+export default function SaudePage() {
   return (
     <CategoryPage
       title="Saúde e Farmácias"

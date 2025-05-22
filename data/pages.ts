@@ -265,7 +265,6 @@ export const pagesData: Pages = {
       href: 'https://arrendamentoacessivel.gov.pt/',
     },
   ],
-
   automovel: [
     {
       icon: Car,
@@ -299,7 +298,6 @@ export const pagesData: Pages = {
       href: 'https://www.comparaja.pt/seguro-automovel',
     },
   ],
-
   financas: [
     {
       icon: FileText,

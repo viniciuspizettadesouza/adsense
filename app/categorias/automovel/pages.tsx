@@ -1,7 +1,7 @@
-import CategoryPage from '@/components/template/CategoryPage';
+import CategoryPage from '@/components/templates/CategoryPage';
 import { pagesData } from '@/data/pages';
 
-export function AutomovelPage() {
+export default function AutomovelPage() {
   return (
     <CategoryPage
       title="Automóvel"

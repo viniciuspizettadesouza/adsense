@@ -1,7 +1,7 @@
-import CategoryPage from '@/components/template/CategoryPage';
+import CategoryPage from '@/components/templates/CategoryPage';
 import { pagesData } from '@/data/pages';
 
-export function FinancasPage() {
+export default function FinancasPage() {
   return (
     <CategoryPage
       title="Finanças e Impostos"
