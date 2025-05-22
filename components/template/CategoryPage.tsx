@@ -1,25 +1,32 @@
 import Link from 'next/link';
+import { PageItem } from '@/data/pages';
 import { AdBanner } from '@/components/molecules/AdBanner';
-import { categories } from '@/data/categories';
 
-export default function Home() {
+interface CategoryPageProps {
+  title: string;
+  description?: string;
+  items: PageItem[];
+}
+
+export default function CategoryPage({
+  title,
+  description,
+  items,
+}: CategoryPageProps) {
   return (
     <main className="mx-auto min-h-screen max-w-6xl p-6 sm:p-12">
-      <h1 className="mb-4 text-center text-3xl font-bold sm:text-left sm:text-4xl">
-        Portugal para Imigrantes
-      </h1>
-      <p className="mb-8 max-w-2xl text-center text-gray-600 sm:text-left">
-        Descubra serviços essenciais, sites úteis e informações práticas para
-        viver em Portugal com mais facilidade.
-      </p>
+      <h1 className="mb-4 text-2xl font-bold sm:text-3xl">{title}</h1>
+      {description && <p className="mb-6 text-gray-600">{description}</p>}
 
       <AdBanner />
 
-      <section className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map(({ icon: Icon, title, description, href }) => (
-          <Link
+      <section className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map(({ icon: Icon, title, description, href }) => (
+          <a
             key={href}
             href={href}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group relative flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow transition-all hover:border-blue-400 hover:shadow-lg"
           >
             <div className="flex items-center gap-3">
@@ -32,9 +39,15 @@ export default function Home() {
             <div className="absolute top-4 right-4 text-xs text-blue-400 group-hover:text-blue-600">
               →
             </div>
-          </Link>
+          </a>
         ))}
       </section>
+
+      <div className="mt-10">
+        <Link href="/" className="text-sm text-blue-600 hover:underline">
+          ← Voltar à página inicial
+        </Link>
+      </div>
     </main>
   );
 }

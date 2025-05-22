@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 export const AdBanner = () => {
   useEffect(() => {
     try {
-      (window as any).adsbygoogle = (window as any).adsbygoogle || [];
-      (window as any).adsbygoogle.push({});
+      window.adsbygoogle = window.adsbygoogle || [];
+      window.adsbygoogle.push({});
     } catch (e) {
       console.error('AdSense error:', e);
     }
