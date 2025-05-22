@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import Navbar from '@/components/organisms/Navbar';
 import clsx from 'clsx';
 import Footer from '@/components/organisms/Footer';
+import { ThemeProvider } from '@/components/theme-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,17 +28,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt">
+    <html lang="pt" suppressHydrationWarning>
       <body
         className={clsx(
           geistSans.variable,
           geistMono.variable,
-          'bg-gray-50 text-gray-900 antialiased'
+          'bg-gray-50 text-gray-900 antialiased dark:bg-black'
         )}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
