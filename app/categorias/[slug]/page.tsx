@@ -1,28 +1,34 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import CategoryPage from '@/components/templates/CategoryPage';
-import { pagesData } from '@/data/pages';
-import { categoryTitles } from '@/data/categoryTitles';
+import { categories, getCategory } from '@/data/categories';
+import { getGuidesByCategory } from '@/data/guides';
 
-type Props = {
-  params: {
-    slug: string;
+type Props = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return categories.map(({ slug }) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const category = getCategory(slug);
+  if (!category) return {};
+
+  return {
+    title: category.title,
+    description: category.description,
+    alternates: { canonical: `/categorias/${category.slug}` },
   };
-};
+}
 
-export default function DynamicCategoryPage({ params }: Props) {
-  const data = pagesData[params.slug];
+export default async function DynamicCategoryPage({ params }: Props) {
+  const { slug } = await params;
+  const category = getCategory(slug);
+  if (!category) notFound();
 
-  if (!data) return notFound();
+  const categoryGuides = getGuidesByCategory(category.slug);
+  if (categoryGuides.length === 0) notFound();
 
-  const meta = categoryTitles[params.slug];
-
-  if (!meta) return notFound();
-
-  return (
-    <CategoryPage
-      title={meta.title}
-      description={meta.description}
-      items={data}
-    />
-  );
+  return <CategoryPage category={category} guides={categoryGuides} />;
 }

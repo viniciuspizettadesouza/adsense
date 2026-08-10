@@ -1,65 +1,40 @@
-import Link from 'next/link';
-import { PageItem } from '@/data/pages';
-import { AdBanner } from '@/components/molecules/AdBanner';
-
-interface CategoryPageProps {
-  title: string;
-  description?: string;
-  items: PageItem[];
-}
+import { Breadcrumbs } from '@/components/molecules/Breadcrumbs';
+import { GuideCard } from '@/components/molecules/GuideCard';
+import type { Category, Guide } from '@/types/content';
 
 export default function CategoryPage({
-  title,
-  description,
-  items,
-}: CategoryPageProps) {
+  category,
+  guides,
+}: {
+  category: Category;
+  guides: Guide[];
+}) {
+  const Icon = category.icon;
+
   return (
-    <main className="mx-auto min-h-screen max-w-6xl p-6 sm:p-12">
-      <h1 className="mb-4 text-2xl font-bold text-gray-900 sm:text-3xl dark:text-gray-100">
-        {title}
-      </h1>
-
-      {description && (
-        <p className="mb-6 text-gray-600 dark:text-gray-400">{description}</p>
-      )}
-
-      <AdBanner />
-
-      <section className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map(({ icon: Icon, title, description, href }) => (
-          <a
-            key={href}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-5 shadow transition-all hover:border-blue-400 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900"
-          >
-            <div className="flex items-center gap-3">
-              <div className="rounded-full bg-blue-100 p-2 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
-                <Icon className="h-5 w-5" />
-              </div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                {title}
-              </h2>
-            </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {description}
-            </p>
-            <div className="absolute top-4 right-4 text-xs text-blue-400 group-hover:text-blue-600 dark:group-hover:text-blue-300">
-              →
-            </div>
-          </a>
+    <main id="conteudo" className="mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8">
+      <Breadcrumbs
+        items={[{ label: 'Início', href: '/' }, { label: category.title }]}
+      />
+      <header className="max-w-3xl">
+        <div className="inline-flex rounded-2xl bg-emerald-100 p-3 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200">
+          <Icon className="h-7 w-7" aria-hidden="true" />
+        </div>
+        <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">
+          {category.title}
+        </h1>
+        <p className="mt-5 text-lg leading-8 text-stone-600 dark:text-stone-300">
+          {category.description}
+        </p>
+      </header>
+      <section
+        aria-label={`Guias de ${category.title}`}
+        className="mt-12 grid gap-6 lg:grid-cols-3"
+      >
+        {guides.map((guide) => (
+          <GuideCard key={guide.slug} guide={guide} />
         ))}
       </section>
-
-      <div className="mt-10">
-        <Link
-          href="/"
-          className="text-sm text-blue-600 hover:underline dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          ← Voltar à página inicial
-        </Link>
-      </div>
     </main>
   );
 }
